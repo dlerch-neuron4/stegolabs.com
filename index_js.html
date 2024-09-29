@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Effect</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        // Fullscreen canvas
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        //const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const letters = "01";
+        const fontSize = 26; // Larger font size
+        const columns = canvas.width / fontSize;
+
+        // Array of drops - one per column
+        const drops = [];
+        for (let x = 0; x < columns; x++) {
+            drops[x] = Math.random() * canvas.height;
+        }
+
+        // Transparency settings
+        const letterTransparency = 0.4; // Adjust this value (0.0 to 1.0) to control letter transparency
+        const trailTransparency = 0.1;  // Adjust this value (0.0 to 1.0) to control trail transparency
+
+        function draw() {
+            // Dark background with slight opacity for trail effect
+            ctx.fillStyle = `rgba(0, 0, 0, ${trailTransparency})`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = `rgba(0, 191, 255, ${letterTransparency})`; // Bright blue color with transparency
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // Move the drop downwards more slowly
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                drops[i] += 1.8; // Slower movement
+            }
+        }
+
+        setInterval(draw, 50); // Adjusted interval for slower update
+    </script>
+</body>
+</html>
+
+
