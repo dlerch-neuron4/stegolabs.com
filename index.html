@@ -385,7 +385,7 @@
 
 <script>
 
-   localStorage.clear(); // XXX
+   //localStorage.clear(); // XXX
 
    window.onload = function() {
          if (!localStorage.getItem('cookiesAccepted')) {
@@ -409,6 +409,10 @@
    function enableAnalytics() {
          if (localStorage.getItem('analyticsCookies') === 'true') {
                console.log("ENABLE ANALYTICS");
+               window.dataLayer = window.dataLayer || [];
+               function gtag(){dataLayer.push(arguments);}
+               gtag('js', new Date());
+               gtag('config', 'G-DYQJ4Y9Y20');
          }
    }
 
