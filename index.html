@@ -451,26 +451,46 @@ $('#main_cta').mouseleave(function(){
 });
 
 
+function setSlide(slide) {
+   if(slide=="STEGOAPP") {
+      updateContentWithFade('main_title', "Discover Stego<b style='color:orange'>App</b>");
+      updateContentWithFade('main_subtitle', "and hide Your Message in Plain Sight");
+      updateContentWithFade('main_subsubtitle', "Secure your communications by embedding hidden data within images");
+      updateLinkWithFade('main_cta', 'https://stego.app', 'Try StegoApp');
+   }
+   else if(slide=="STEGOLABS") {
+      updateContentWithFade('main_title', "Stego<b style='color:orange'>Labs</b>");
+      updateContentWithFade('main_subtitle', "Experts in Information Hiding");
+      updateContentWithFade('main_subsubtitle', "Where Information Hides in Plain Sight");
+      updateLinkWithFade('main_cta', '#whatwedo', 'Discover More');
+   }
+}
+
 $(document).ready(function(){
 
-   setInterval(function() {
-      if(gSlide == "STEGOLABS") {
-         updateContentWithFade('main_title', "Discover Stego<b style='color:orange'>App</b>");
-         updateContentWithFade('main_subtitle', "and hide Your Message in Plain Sight");
-         updateContentWithFade('main_subsubtitle', "Secure your communications by embedding hidden data within images");
-         updateLinkWithFade('main_cta', 'https://stego.app', 'Try StegoApp');
-         gSlide = "STEGOAPP";
-      }
-      else if(gSlide == "STEGOAPP") {
-         updateContentWithFade('main_title', "Stego<b style='color:orange'>Labs</b>");
-         updateContentWithFade('main_subtitle', "Experts in Information Hiding");
-         updateContentWithFade('main_subsubtitle', "Where Information Hides in Plain Sight");
-         updateLinkWithFade('main_cta', '#whatwedo', 'Discover More');
-         gSlide = "STEGOLABS";
-      }
+   var isLandingPage = false;
+   var urlParams = new URLSearchParams(window.location.search);
+   if(urlParams.has('l')) {
+      var v = urlParams.get('l');
+      if(v=='stegoapp') {
+         setSlide('STEGOAPP');
+          isLandingPage=true;
+       }
+   }
 
-   }, 20000);
+   if(!isLandingPage) {
+      setInterval(function() {
+         if(gSlide == "STEGOLABS") {
+           setSlide('STEGOAPP');
+           gSlide = "STEGOAPP";
+         }
+         else if(gSlide == "STEGOAPP") {
+            setSlide('STEGOLABS');
+            gSlide = "STEGOLABS";
+         }
 
+      }, 20000);
+   }
 
    $('#send').click(function(){
 
